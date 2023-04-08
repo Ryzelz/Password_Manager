@@ -1,10 +1,15 @@
 # PasswordManager_Pro
 a group project with Ery, Seb, Awi, Xander, Justin...
 
-#Use this as sending your codes here
+Use this as sending your codes here
 
-Send file:
+## **How to download the code here:**
+"<> Code" >
+"Download zip" >
+your done! >
 
+## ** Send file for changes: **
+(you don't have to send all the files, just files that changed)
 "Add file" > 
 
 "Upload file" >
