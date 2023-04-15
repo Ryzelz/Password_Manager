@@ -4,47 +4,73 @@ Created on Sun Apr  9 05:37:51 2023
 
 @author: ryzel
 """
+#generate db
+import sqlite3
+#geenrate random id
+import uuid
+#connecting the file database
 import sqlite3
 
-#connecting the file database
-conn = sqlite3.connect('PASSDB.db')
+class PasswordManager:
+    def __init__(self, db_name):
+        self.conn = sqlite3.connect(db_name)
+        self.cursor = self.conn.cursor()
+        self.create_table()
 
-cursor = conn.cursor()
+    def create_table(self):
+        self.cursor.execute('''CREATE TABLE IF NOT EXISTS users(
+                            user_uuid TEXT,
+                            name TEXT,
+                            password TEXT
+                            )''')
+        self.conn.commit()
 
-# Create the "users" table if it doesn't exist
-password_table = """CREATE TABLE IF NOT EXISTS users (
-    name TEXT NOT NULL,
-    password TEXT NOT NULL
-);"""
+    def create_new_pass(self):
+        name = ""
+        password = ""
+        while name == "" or password == "":
+            name = input("Name: ")
+            password = input("Password: ")
+            user_uuid = str(uuid.uuid4())
+            self.cursor.execute(f"INSERT INTO users (user_uuid, name, password) VALUES (?, ?, ?)",
+                                (user_uuid, name, password))
+            self.conn.commit()
+            if name and password:
+                print("Account creation successfully executed")
+                break
+            else:
+                print("Must include name and password")
 
-cursor.execute(password_table)
-def Create_new_pass():
-    name = ""
-    password = ""    
-    while name or not password:
-        #inputs
-        name = input("Name: ")
-        password = input("Password: ")
-        
-        # Insert the user's name and password into the "users" table
-        password_table = """INSERT INTO users
-            (name, password)
-            VALUES ('{}','{}');""".format(
-                name, password)
-        cursor.execute(password_table)
-        #saves to the database
-        conn.commit()
-        print("\n New pass sucessfully created \n")
-        if name and password:
-             break
-        else:
-             print("Must include name or password")
-def display_users():
-    try:
-        
-        cursor.execute("SELECT * FROM users")
-        rows = cursor.fetchall()
-        for row in rows:
-            print(row)
-    except sqlite3.Error as e:
-        print("Data error.", e)
+    def display_users(self):
+        try:
+            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+            print("|UUID| |NAME| |PASSWORD|")
+            self.cursor.execute("SELECT * FROM users")
+            for record in self.cursor:
+                print(record)
+            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        except sqlite3.Error as e:
+            print("Data error.", e)
+#Not working code
+# =============================================================================
+# 
+#     def delete_pass(self, uuid_account_deletion):
+#         self.cursor.execute("DELETE FROM users WHERE user_uuid = ?", (uuid_account_deletion,))
+#         self.conn.commit()
+#         print(f"Account {uuid_account_deletion} deleted successfully!")
+# 
+#     def update_pass(self, user_id, updating_loc, updated_var):
+#         self.cursor.execute("UPDATE users SET {} = ? WHERE user_uuid = ?".format(updating_loc),
+#                             (updated_var, user_id))
+#         self.conn.commit()
+#         print(f"Total number of rows updated: {self.conn.total_changes}")
+#         table = self.cursor.execute('SELECT * from users')
+#         for record in table:
+#             print(record)
+# 
+# =============================================================================
+    def close_connection(self):
+        self.conn.close()
+
+
+
