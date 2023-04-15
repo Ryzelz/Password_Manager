@@ -20,7 +20,7 @@ class PasswordManager:
     def create_table(self):
         self.cursor.execute('''CREATE TABLE IF NOT EXISTS users(
                             user_uuid TEXT,
-                            name TEXT,
+                            name TEXT PRIMARY KEY,
                             password TEXT
                             )''')
         self.conn.commit()
@@ -51,23 +51,32 @@ class PasswordManager:
             print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         except sqlite3.Error as e:
             print("Data error.", e)
+
+    def search_users(self,name):
+        try:
+           print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+           print("|UUID| |NAME| |PASSWORD|")
+           self.cursor.execute("SELECT * FROM users WHERE name=(:name)",{'name':name})
+           print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~") 
+        except sqlite3.Error as e:
+            print("No users.",e)
 #Not working code
 # =============================================================================
-# 
-#     def delete_pass(self, uuid_account_deletion):
-#         self.cursor.execute("DELETE FROM users WHERE user_uuid = ?", (uuid_account_deletion,))
-#         self.conn.commit()
-#         print(f"Account {uuid_account_deletion} deleted successfully!")
-# 
-#     def update_pass(self, user_id, updating_loc, updated_var):
-#         self.cursor.execute("UPDATE users SET {} = ? WHERE user_uuid = ?".format(updating_loc),
-#                             (updated_var, user_id))
-#         self.conn.commit()
-#         print(f"Total number of rows updated: {self.conn.total_changes}")
-#         table = self.cursor.execute('SELECT * from users')
-#         for record in table:
-#             print(record)
-# 
+
+    def delete_pass(self, name):
+        self.cursor.execute("DELETE FROM users WHERE name = ", (name))
+        self.conn.commit()
+        print(f"Account {name} deleted successfully!")
+
+    def update_pass(self, user_id, updating_loc, updated_var):
+        self.cursor.execute("UPDATE users SET {} = ? WHERE user_uuid = ?".format(updating_loc),
+                            (updated_var, user_id))
+        self.conn.commit()
+        print(f"Total number of rows updated: {self.conn.total_changes}")
+        table = self.cursor.execute('SELECT * from users')
+        for record in table:
+            print(record)
+
 # =============================================================================
     def close_connection(self):
         self.conn.close()

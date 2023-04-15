@@ -21,8 +21,8 @@ while True:
         password_manager.display_users()
     elif menu_cursor == "c":
         password_manager.display_users()
-        uuid_account_deletion = input("Input your desired uuid: ")
-        password_manager.delete_pass(uuid_account_deletion)
+        name = str(input("Input the name of the pass: "))
+        password_manager.delete_pass(name)
     elif menu_cursor == "d":
         # Implement the logic for changing password
         pass
