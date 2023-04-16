@@ -12,8 +12,8 @@ import uuid
 import sqlite3
 
 class PasswordManager:
-    def __init__(self, db_name):
-        self.conn = sqlite3.connect(db_name)
+    def __init__(self, file_name="PASSDB.db"):
+        self.conn = sqlite3.connect("PASSDB.db")
         self.cursor = self.conn.cursor()
         self.create_table()
 
@@ -44,7 +44,7 @@ class PasswordManager:
     def display_users(self):
         try:
             print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-            print("|UUID| |NAME| |PASSWORD|")
+            print("|NAME| |PASSWORD|")
             self.cursor.execute("SELECT * FROM users")
             for record in self.cursor:
                 print(record)
@@ -60,18 +60,14 @@ class PasswordManager:
            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~") 
         except:
             print("No users.",)
-#Not working code
-# =============================================================================
-
     def delete_pass(self, name):
         try:
-            self.cursor.execute("DELETE FROM users WHERE name = (:name)", {'name':name})
+            self.cursor.execute(f"DELETE FROM users WHERE name = '{name}'")
             self.conn.commit()
             if name:
                 print(f"Account {name} deleted successfully!")
         except:
             print("There is no such name as ", name)
-
     def update_pass(self, name, updating_loc, updated_var):
         self.cursor.execute("UPDATE users SET {} = (:updvar) WHERE name= (:name)".format(updating_loc),
                             {'updvar':updated_var,'name':name})
@@ -80,7 +76,6 @@ class PasswordManager:
         table = self.cursor.execute('SELECT * from users')
         for record in table:
             print(record)
-# =============================================================================
     def close_connection(self):
         self.conn.close()
 
