@@ -25,7 +25,10 @@ while True:
         password_manager.delete_pass(name)
     elif menu_cursor == "d":
         # Implement the logic for changing password
-        pass
+        updloc = input('what do you need to update(name/pass)?')
+        name = input('what is the name that you need to update?')
+        upd = input('what is your desired update? ')
+        password_manager.update_pass(name, updloc, upd)
     elif menu_cursor == "z":
         password_manager.close_connection()
         break
