@@ -7,9 +7,7 @@ Created on Sun Apr  9 05:37:51 2023
 #generate db
 import sqlite3
 #geenrate random id
-import uuid
 #connecting the file database
-import sqlite3
 import random
 
 class PasswordManager:
@@ -58,6 +56,7 @@ class PasswordManager:
            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
            print("|NAME| |PASSWORD|")
            self.cursor.execute("SELECT * FROM users WHERE name=(:name)",{'name':name})
+           print(self.cursor.fetchall())
            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~") 
         except:
             print("No users.",)
@@ -83,7 +82,7 @@ class PasswordManager:
             print(record)
 # =============================================================================
 
-    def modify_text(text):
+    def modify_text(self,text):
         """Modifies a text to make it more complex."""
         # split text into words
         words = text.split()
@@ -107,7 +106,7 @@ class PasswordManager:
         # join the modified words back into a text
         modified_text = " ".join(words)
         
-        return modified_text
+        print(modified_text)
 
     def close_connection(self):
         self.conn.close()

@@ -13,7 +13,7 @@ password_manager = PasswordManager('PASSDB.db')
 
 while True:
     print("Password manager CLI")
-    menu_cursor = input("\n [a] Create new password \n [b] Display all passwords \n [c] Delete pass \n [d] Change pass(WIP) \n [z] Exit \n Input: ")
+    menu_cursor = input("\n [a] Create new password \n [b] Display all passwords \n [c] Delete pass \n [d] Change pass(WIP) \n [e] Search for Password \n [f] Modify a Password(turns simple password to complex password) \n [z] Exit \n Input: ")
     menu_cursor = menu_cursor.lower()
     if menu_cursor == "a":
         password_manager.create_new_pass()
@@ -29,6 +29,12 @@ while True:
         name = input('what is the name that you need to update?')
         upd = input('what is your desired update? ')
         password_manager.update_pass(name, updloc, upd)
+    elif menu_cursor == "e":
+        search_bar = input("Please Input the name of credential that you need: ")
+        password_manager.search_users(search_bar)
+    elif menu_cursor == "f":
+        passwmod = input("Please input the password that you need to modify: ")
+        password_manager.modify_text(passwmod)
     elif menu_cursor == "z":
         password_manager.close_connection()
         break
