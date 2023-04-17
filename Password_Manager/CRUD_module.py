@@ -10,6 +10,7 @@ import sqlite3
 import uuid
 #connecting the file database
 import sqlite3
+import random
 
 class PasswordManager:
     def __init__(self, db_name):
@@ -81,6 +82,33 @@ class PasswordManager:
         for record in table:
             print(record)
 # =============================================================================
+
+    def modify_text(text):
+        """Modifies a text to make it more complex."""
+        # split text into words
+        words = text.split()
+        
+        # loop through each word and modify it
+        for i in range(len(words)):
+            # randomly capitalize letters
+            modified_word = ""
+            for letter in words[i]:
+                if random.random() < 0.5:
+                    modified_word += letter.upper()
+                else:
+                    modified_word += letter.lower()
+            
+            # randomly add numbers to the end of the word
+            if random.random() < 0.5:
+                modified_word += str(random.randint(0, 9))
+            
+            words[i] = modified_word
+        
+        # join the modified words back into a text
+        modified_text = " ".join(words)
+        
+        return modified_text
+
     def close_connection(self):
         self.conn.close()
 
