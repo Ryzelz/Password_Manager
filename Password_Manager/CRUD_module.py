@@ -43,21 +43,28 @@ class PasswordManager:
     def display_users(self):
         try:
             print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-            print("|UUID| |NAME| |PASSWORD|")
-            self.cursor.execute("SELECT * FROM users")
-            for record in self.cursor:
-                print(record)
+            print("NAMES")
+            self.cursor.execute("SELECT name FROM users")
+            rows = self.cursor.fetchall()
+            result_list= [list(rows) for rows in rows]
+            for row in result_list:
+                print("{:<10}".format(row[0]))
             print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         except sqlite3.Error as e:
             print("Data error.", e)
-
+            for row in result_list:
+                print("{:<10}".format(row[0]))
+            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     def search_users(self,name):
         try:
            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-           print("|NAME| |PASSWORD|")
-           self.cursor.execute("SELECT * FROM users WHERE name=(:name)",{'name':name})
-           print(self.cursor.fetchall())
-           print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~") 
+           print("NAMES")
+           self.cursor.execute("SELECT name FROM users WHERE name=(:name)",{'name':name})
+           rows = self.cursor.fetchall()
+           result_list= [list(rows) for rows in rows]
+           for row in result_list:
+               print("{:<10}".format(row[0]))
+           print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         except:
             print("No users.",)
 #Not working code

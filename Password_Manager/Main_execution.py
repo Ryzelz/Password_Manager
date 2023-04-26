@@ -13,7 +13,7 @@ password_manager = PasswordManager('PASSDB.db')
 
 while True:
     print("Password manager CLI")
-    menu_cursor = input("\n [a] Create new password \n [b] Display all passwords \n [c] Delete pass \n [d] Change pass(WIP) \n [e] Search for Password \n [f] Modify a Password(turns simple password to complex password) \n [z] Exit \n Input: ")
+    menu_cursor = input("\n [a] Create new password \n [b] Display all passwords \n [c] Delete pass \n [d] Change pass(WIP) \n [e] Search for username \n [f] Modify a Password(turns simple password to complex password) \n [z] Exit \n Input: ")
     menu_cursor = menu_cursor.lower()
     if menu_cursor == "a":
         password_manager.create_new_pass()
